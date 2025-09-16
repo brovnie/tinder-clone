@@ -12,7 +12,7 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-
+  const loggedIn = false;
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <SafeAreaView
@@ -24,8 +24,12 @@ export default function RootLayout() {
         }}/>
       <Stack>
         <Stack.Screen name="login" options={{headerShown: false }}/>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+        
+        <Stack.Protected guard={loggedIn}>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+        </Stack.Protected>
+
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
