@@ -1,12 +1,15 @@
 import { View, Text } from "react-native";
 import React from "react";
+import { useAuth } from "@/hooks/useAuth";
 
-const login = () => {
+const Login = () => {
+  const { user } = useAuth();
+
   return (
     <View>
-      <Text className="text-white">login</Text>
+      <Text className="text-white">{user}</Text>
     </View>
   );
 };
 
-export default login;
+export default Login;

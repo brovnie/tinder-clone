@@ -20,7 +20,7 @@ export default function HomeScreen() {
         />
       }>
         <View>
-        <Text className="text-5xl text-blue-500">Hello</Text>;
+        <Text className="text-5xl text-blue-500">Hello</Text>
         </View>
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Welcome!</ThemedText>
