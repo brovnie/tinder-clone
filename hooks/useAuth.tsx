@@ -1,4 +1,5 @@
 import React, { createContext, ReactNode, useContext } from "react";
+
 type Props = {
   children: ReactNode;
 };
@@ -13,7 +14,7 @@ const AuthContext = createContext<AuthContextType>({
 
 export const AuthProvider = ({ children }: Props) => {
   return (
-    <AuthContext.Provider value={{ user: "Marlena" }}>
+    <AuthContext.Provider value={{ user: null }}>
       {children}
     </AuthContext.Provider>
   );

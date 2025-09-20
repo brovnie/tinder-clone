@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 const AppRoutes = () => {
   const { user } = useAuth();
   const isLoggedIn = user !== null;
-  console.log(isLoggedIn, user);
+
   return (
     <Stack>
       <Stack.Protected guard={!isLoggedIn}>
