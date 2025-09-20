@@ -1,3 +1,4 @@
+import { auth } from "@/firebase";
 import {
   GoogleSignin,
   GoogleSigninButton,
@@ -5,6 +6,9 @@ import {
   isSuccessResponse,
   statusCodes,
 } from "@react-native-google-signin/google-signin";
+import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
+
+import { View } from "react-native";
 
 GoogleSignin.configure({
   webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID,
@@ -20,10 +24,16 @@ const GoogleLoginButton = () => {
       await GoogleSignin.hasPlayServices();
       const response = await GoogleSignin.signIn();
       if (isSuccessResponse(response)) {
-        console.log(response.data);
-        //setState({ userInfo: response.data });
+        const { accessToken, idToken } = await GoogleSignin.getTokens();
+        const credential = GoogleAuthProvider.credential(idToken, accessToken);
+        try {
+          await signInWithCredential(auth, credential);
+        } catch (error) {
+          console.log("signInWithCredential error:", error);
+        }
       } else {
         // sign in was cancelled by user
+        return Promise.reject();
       }
     } catch (error) {
       if (isErrorWithCode(error)) {
@@ -42,12 +52,15 @@ const GoogleLoginButton = () => {
       }
     }
   };
+
   return (
-    <GoogleSigninButton
-      size={GoogleSigninButton.Size.Wide}
-      color={GoogleSigninButton.Color.Light}
-      onPress={signIn}
-    />
+    <View>
+      <GoogleSigninButton
+        size={GoogleSigninButton.Size.Wide}
+        color={GoogleSigninButton.Color.Light}
+        onPress={signIn}
+      />
+    </View>
   );
 };
 
