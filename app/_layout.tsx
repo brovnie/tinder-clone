@@ -8,10 +8,9 @@ import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import { AuthProvider } from "@/hooks/useAuth";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { AuthProvider, useAuth } from "@/hooks/useAuth";
-import { View, Text } from "react-native";
-import AppRoutes from "./AppRoutes";
+import AppRouter from "./AppRouter";
 
 export const unstable_settings = {
   anchor: "(tabs)",
@@ -25,14 +24,16 @@ export default function RootLayout() {
       <AuthProvider>
         <SafeAreaView
           style={{
+            flex: 1,
             backgroundColor:
               colorScheme === "dark"
                 ? DarkTheme.colors.background
                 : DefaultTheme.colors.background,
           }}
-        />
-        <AppRoutes />
-        <StatusBar style="auto" />
+        >
+          <AppRouter />
+          <StatusBar style="auto" />
+        </SafeAreaView>
       </AuthProvider>
     </ThemeProvider>
   );
