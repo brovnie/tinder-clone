@@ -36,6 +36,8 @@ const GoogleLoginButton = () => {
         return Promise.reject();
       }
     } catch (error) {
+      //TODO: error handeling
+      console.log(error);
       if (isErrorWithCode(error)) {
         switch (error.code) {
           case statusCodes.IN_PROGRESS:

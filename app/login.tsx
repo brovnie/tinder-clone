@@ -19,8 +19,7 @@ const Login = () => {
   }, [isExpoGo]);
 
   return (
-    <View>
-      <Text className="text-red-500 dark:text-white">hello you {user}</Text>
+    <View className="flex-1 justify-center items-center">
       {GoogleLoginButton ? <GoogleLoginButton /> : null}
       {isExpoGo && <Text>Google Sign-In is not available in Expo Go.</Text>}
     </View>
