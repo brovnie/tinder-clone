@@ -1,6 +1,8 @@
 // Import the functions you need from the SDKs you need
+import * as firebaseAuth from "@firebase/auth";
+import * as AsyncStorage from "@react-native-async-storage/async-storage";
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { Auth, getAuth, initializeAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -15,10 +17,19 @@ const firebaseConfig = {
   messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID,
 };
+const reactNativePersistence = (firebaseAuth as any).getReactNativePersistence;
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth();
+
+let auth: Auth;
+try {
+  auth = initializeAuth(app, {
+    persistence: reactNativePersistence(AsyncStorage),
+  });
+} catch (err) {
+  auth = getAuth(app);
+}
 const db = getFirestore();
 
 export { auth, db };
