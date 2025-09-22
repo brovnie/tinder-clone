@@ -3,6 +3,7 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
+import { PaperProvider } from "react-native-paper";
 
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
@@ -21,20 +22,22 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <AuthProvider>
-        <SafeAreaView
-          style={{
-            flex: 1,
-            backgroundColor:
-              colorScheme === "dark"
-                ? DarkTheme.colors.background
-                : DefaultTheme.colors.background,
-          }}
-        >
-          <AppRouter />
-          <StatusBar style="auto" />
-        </SafeAreaView>
-      </AuthProvider>
+      <PaperProvider>
+        <AuthProvider>
+          <SafeAreaView
+            style={{
+              flex: 1,
+              backgroundColor:
+                colorScheme === "dark"
+                  ? DarkTheme.colors.background
+                  : DefaultTheme.colors.background,
+            }}
+          >
+            <AppRouter />
+            <StatusBar style="auto" />
+          </SafeAreaView>
+        </AuthProvider>
+      </PaperProvider>
     </ThemeProvider>
   );
 }

@@ -1,10 +1,9 @@
-import { useAuth } from "@/hooks/useAuth";
+import LoginForm from "@/components/login-form";
 import Constants from "expo-constants";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 
 const Login = () => {
-  const { user } = useAuth();
   const isExpoGo = Constants.appOwnership === "expo";
 
   const [GoogleLoginButton, setGoogleLoginButton] =
@@ -19,9 +18,14 @@ const Login = () => {
   }, [isExpoGo]);
 
   return (
-    <View className="flex-1 justify-center items-center">
+    <View className="flex-1 justify-center items-center mx-10">
+      <LoginForm />
       {GoogleLoginButton ? <GoogleLoginButton /> : null}
-      {isExpoGo && <Text>Google Sign-In is not available in Expo Go.</Text>}
+      {isExpoGo && (
+        <Text className="dark:text-white py-2">
+          Google Sign-In is not available in Expo Go.
+        </Text>
+      )}
     </View>
   );
 };

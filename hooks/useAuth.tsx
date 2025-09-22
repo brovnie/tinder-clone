@@ -8,6 +8,7 @@ import {
   SetStateAction,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 
@@ -56,14 +57,13 @@ export const AuthProvider = ({ children }: Props) => {
     }
   }, [loadingInitial]);
 
+  const memedValues = useMemo(() => ({ user, setUser }), [user]);
+
   if (loadingInitial) {
     return null;
   }
-
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={memedValues}>{children}</AuthContext.Provider>
   );
 };
 
