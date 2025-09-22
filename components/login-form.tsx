@@ -40,6 +40,7 @@ const LoginForm = () => {
           },
         }}
         contentStyle={{ paddingHorizontal: 10 }}
+        secureTextEntry
       />
       <Button
         mode="contained"
