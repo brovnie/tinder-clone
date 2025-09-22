@@ -1,11 +1,14 @@
 import { Colors } from "@/constants/theme";
 import { useColorScheme, View } from "react-native";
-import { Button, TextInput } from "react-native-paper";
+import { Button, Text, TextInput } from "react-native-paper";
 
 const LoginForm = () => {
   const colorScheme = useColorScheme();
   return (
-    <View className="flex-col w-full gap-3">
+    <View className="flex-col w-full gap-3 justify-center">
+      <Text className="text-4xl border-red-400 border-b-8 py-1 my-3 mx-auto items-center">
+        Sing in
+      </Text>
       <TextInput
         label="Email"
         mode="outlined"
@@ -40,6 +43,7 @@ const LoginForm = () => {
       />
       <Button
         mode="contained"
+        className="mt-3"
         contentStyle={{ height: 50 }}
         onPress={() => console.log("Pressed")}
         buttonColor={Colors[colorScheme ?? "light"].button}
