@@ -14,7 +14,6 @@ const AuthForm = ({ type }: AuthFormType) => {
   const [email, setEmail] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
   const { signUpOrLogin, error } = useAuth();
-  console.log(error);
   return (
     <View className="flex-col w-full gap-3 justify-center">
       <Text className="text-4xl border-red-400 dark:border-rose-900 border-b-8 py-1 my-3 mx-auto items-center">
@@ -34,11 +33,11 @@ const AuthForm = ({ type }: AuthFormType) => {
         onChangeText={(text) => setEmail(text)}
         outlineColor={
           !error ? Colors[colorScheme ?? "light"].inputBorder : "red"
-        } // border color when not focused
-        activeOutlineColor={Colors[colorScheme ?? "light"].inputBorderFocused} // border color when focused (e.g. green)
+        }
+        activeOutlineColor={Colors[colorScheme ?? "light"].inputBorderFocused}
         theme={{
           colors: {
-            primary: "#4ade80", // focused color
+            primary: "#4ade80",
             error: "#dc2626",
           },
         }}
