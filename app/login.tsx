@@ -21,7 +21,7 @@ const Login = () => {
   }, [isExpoGo]);
 
   return (
-    <View className="mx-10 flex-1 justify-center">
+    <View className="flex-col h-full mx-10 flex-1 justify-center">
       <AuthForm type="login" />
       <Link
         href={"/singup"}
@@ -32,7 +32,7 @@ const Login = () => {
           <Text className="text-center text-base dark:text-white">
             Don&apos;t have an account?{" "}
             <Text
-              className="font-bold"
+              className="font-bold text-rose-500"
               style={{
                 color: Colors[colorScheme ?? "light"].button,
               }}
