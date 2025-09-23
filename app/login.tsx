@@ -32,7 +32,7 @@ const Login = () => {
           <Text className="text-center text-base dark:text-white">
             Don&apos;t have an account?{" "}
             <Text
-              className="font-bold text-rose-500"
+              className="font-bold"
               style={{
                 color: Colors[colorScheme ?? "light"].button,
               }}

@@ -13,8 +13,18 @@ const AppRouter = () => {
   return (
     <Stack>
       <Stack.Protected guard={!isLoggedIn}>
-        <Stack.Screen name="login" options={{ headerShown: false }} />
-        <Stack.Screen name="singup" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="login"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="singup"
+          options={{
+            headerShown: false,
+          }}
+        />
       </Stack.Protected>
 
       <Stack.Protected guard={isLoggedIn}>

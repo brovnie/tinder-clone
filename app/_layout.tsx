@@ -11,6 +11,7 @@ import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { AuthProvider } from "@/hooks/useAuth";
 import { SafeAreaView } from "react-native-safe-area-context";
+import "../global.css";
 import AppRouter from "./AppRouter";
 
 export default function RootLayout() {
