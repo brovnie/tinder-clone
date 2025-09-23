@@ -56,7 +56,7 @@ const GoogleLoginButton = () => {
   };
 
   return (
-    <View className="mt-6 items-center">
+    <View className="items-center">
       <View className="flex-row w-full mb-3 justify-center items-center">
         <View className="h-1 flex-1 bg-slate-200 mr-10"></View>
         <Text className="text-xl">or</Text>
@@ -66,6 +66,7 @@ const GoogleLoginButton = () => {
         size={GoogleSigninButton.Size.Wide}
         color={GoogleSigninButton.Color.Light}
         onPress={signIn}
+        className="m-0"
       />
     </View>
   );

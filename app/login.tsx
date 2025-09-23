@@ -1,11 +1,13 @@
 import AuthForm from "@/components/auth-form";
+import { Colors } from "@/constants/theme";
 import Constants from "expo-constants";
 import { Link } from "expo-router";
 import { useEffect, useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text, useColorScheme, View } from "react-native";
 
 const Login = () => {
   const isExpoGo = Constants.appOwnership === "expo";
+  const colorScheme = useColorScheme();
 
   const [GoogleLoginButton, setGoogleLoginButton] =
     useState<React.ComponentType | null>(null);
@@ -19,19 +21,30 @@ const Login = () => {
   }, [isExpoGo]);
 
   return (
-    <View className="flex-1 justify-center items-center mx-10">
+    <View className="mx-10 flex-1 justify-center">
       <AuthForm type="login" />
-      <Link href={"/singup"} asChild>
-        <Pressable className="py-5">
-          <Text className="dark:text-white">
+      <Link
+        href={"/singup"}
+        className="flex justify-center py-5 active:bg-slate-200 dark:active:bg-slate-800 rounded-3xl"
+        asChild
+      >
+        <Pressable>
+          <Text className="text-center text-base dark:text-white">
             Don&apos;t have an account?{" "}
-            <Text className="bold text-rose-500">Register now</Text>
+            <Text
+              className="font-bold text-rose-500"
+              style={{
+                color: Colors[colorScheme ?? "light"].button,
+              }}
+            >
+              Register.
+            </Text>
           </Text>
         </Pressable>
       </Link>
       {GoogleLoginButton ? <GoogleLoginButton /> : null}
       {isExpoGo && (
-        <Text className="dark:text-white py-2">
+        <Text className="dark:text-white py-2 w-full text-center">
           Google Sign-In is not available in Expo Go.
         </Text>
       )}

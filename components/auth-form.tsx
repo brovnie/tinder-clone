@@ -17,7 +17,7 @@ const AuthForm = ({ type }: AuthType) => {
 
   return (
     <View className="flex-col w-full gap-3 justify-center">
-      <Text className="text-4xl border-red-400 border-b-8 py-1 my-3 mx-auto items-center">
+      <Text className="text-4xl border-red-400 dark:border-rose-900 border-b-8 py-1 my-3 mx-auto items-center">
         {type === "login" ? "Sing in" : "Sign up"}
       </Text>
       <TextInput
@@ -62,6 +62,7 @@ const AuthForm = ({ type }: AuthType) => {
           contentStyle={{ height: 50 }}
           onPress={() => signUpOrLogin({ email, password, authType: type })}
           buttonColor={Colors[colorScheme ?? "light"].button}
+          textColor="white"
         >
           {type === "login" ? "Sing in" : "Sign up"}
         </Button>
