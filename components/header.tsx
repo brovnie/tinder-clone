@@ -1,13 +1,13 @@
 import { Colors } from "@/constants/theme";
 import { useAuth } from "@/hooks/useAuth";
 import { Ionicons } from "@expo/vector-icons";
-import { Link, useRouter } from "expo-router";
+import { Link } from "expo-router";
 import { Image, TouchableOpacity, useColorScheme, View } from "react-native";
 import { Appbar, Avatar } from "react-native-paper";
+
 const Header = () => {
   const { user } = useAuth();
   const colorScheme = useColorScheme();
-  const router = useRouter();
 
   const photo = {
     uri: user?.photoURL
