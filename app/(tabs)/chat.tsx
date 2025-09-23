@@ -1,9 +1,10 @@
-import { View, Text } from "react-native";
-import React from "react";
+import Header from "@/components/header";
+import { Text, View } from "react-native";
 
 const Chat = () => {
   return (
     <View>
+      <Header />
       <Text>Chat</Text>
     </View>
   );

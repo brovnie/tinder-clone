@@ -28,6 +28,7 @@ export default function RootLayout() {
                   ? DarkTheme.colors.background
                   : DefaultTheme.colors.background,
             }}
+            edges={["left", "right", "bottom"]}
           >
             <AppRouter />
             <StatusBar style="auto" />

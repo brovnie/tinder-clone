@@ -1,40 +1,20 @@
-import { Tabs } from "expo-router";
-import React from "react";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import HomeScreen from ".";
+import Chat from "./chat";
 
-import { HapticTab } from "@/components/haptic-tab";
-import { IconSymbol } from "@/components/ui/icon-symbol";
-import { Colors } from "@/constants/theme";
-import { useColorScheme } from "@/hooks/use-color-scheme";
+const Tab = createMaterialTopTabNavigator();
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
-    <Tabs
+    <Tab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-        headerShown: true,
-        tabBarButton: HapticTab,
+        tabBarIndicatorStyle: {
+          backgroundColor: "transparent",
+        },
       }}
     >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Home",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="chat"
-        options={{
-          title: "Chat",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="paperplane.fill" color={color} />
-          ),
-        }}
-      />
-    </Tabs>
+      <Tab.Screen name="index" component={HomeScreen} />
+      <Tab.Screen name="chat" component={Chat} />
+    </Tab.Navigator>
   );
 }
