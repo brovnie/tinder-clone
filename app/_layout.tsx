@@ -13,10 +13,6 @@ import { AuthProvider } from "@/hooks/useAuth";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AppRouter from "./AppRouter";
 
-export const unstable_settings = {
-  anchor: "(tabs)",
-};
-
 export default function RootLayout() {
   const colorScheme = useColorScheme();
 

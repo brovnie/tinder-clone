@@ -1,6 +1,11 @@
 import { auth } from "@/firebase";
 import * as SplashScreen from "expo-splash-screen";
-import { onAuthStateChanged, User } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  User,
+} from "firebase/auth";
 import {
   createContext,
   Dispatch,
@@ -16,19 +21,33 @@ type Props = {
   children: ReactNode;
 };
 
+type AuthUserType = {
+  email: string | null;
+  password: string | null;
+  authType: "login" | "signUp";
+};
+type AuthType = {
+  authType: "login" | "signUp";
+};
+
 type AuthContextType = {
   user: User | null;
   setUser: Dispatch<SetStateAction<User | null>>;
+  signUpOrLogin: ({ email, password, authType }: AuthUserType) => void;
+  error: string | null | unknown;
 };
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   setUser: () => {},
+  signUpOrLogin({ email, password, authType }) {},
+  error: null,
 });
 
 export const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<User | null>(null);
   const [loadingInitial, setLoadingInitial] = useState(true); // set loading state
+  const [error, setError] = useState<string | null | unknown>(null);
 
   useEffect(() => {
     SplashScreen.preventAutoHideAsync().catch(() => {
@@ -57,7 +76,30 @@ export const AuthProvider = ({ children }: Props) => {
     }
   }, [loadingInitial]);
 
-  const memedValues = useMemo(() => ({ user, setUser }), [user]);
+  const signUpOrLogin = async ({ email, password, authType }: AuthUserType) => {
+    try {
+      setLoadingInitial(true);
+      if (!email || !password) {
+        setError("Email or password is empty");
+        console.log("Null value detected");
+        setLoadingInitial(false);
+        return;
+      }
+      const response =
+        authType === "signUp"
+          ? await createUserWithEmailAndPassword(auth, email, password)
+          : await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoadingInitial(false);
+    }
+  };
+
+  const memedValues = useMemo(
+    () => ({ user, setUser, signUpOrLogin, error }),
+    [user, error]
+  );
 
   if (loadingInitial) {
     return null;

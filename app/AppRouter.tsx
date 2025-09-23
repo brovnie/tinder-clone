@@ -1,6 +1,10 @@
 import { useAuth } from "@/hooks/useAuth";
 import { Stack } from "expo-router";
 
+export const unstable_settings = {
+  anchor: "(tabs)",
+};
+
 const AppRouter = () => {
   const { user } = useAuth();
   const isLoggedIn = user !== null;
@@ -9,6 +13,7 @@ const AppRouter = () => {
     <Stack>
       <Stack.Protected guard={!isLoggedIn}>
         <Stack.Screen name="login" options={{ headerShown: false }} />
+        <Stack.Screen name="singup" options={{ headerShown: false }} />
       </Stack.Protected>
 
       <Stack.Protected guard={isLoggedIn}>

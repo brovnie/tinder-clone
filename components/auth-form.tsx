@@ -1,20 +1,32 @@
+"use client";
 import { Colors } from "@/constants/theme";
+import { useAuth } from "@/hooks/useAuth";
+import { useState } from "react";
 import { useColorScheme, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 
-const LoginForm = () => {
+type AuthType = {
+  type: "login" | "signUp";
+};
+
+const AuthForm = ({ type }: AuthType) => {
   const colorScheme = useColorScheme();
+  const [email, setEmail] = useState<string | null>(null);
+  const [password, setPassword] = useState<string | null>(null);
+  const { signUpOrLogin } = useAuth();
+
   return (
     <View className="flex-col w-full gap-3 justify-center">
       <Text className="text-4xl border-red-400 border-b-8 py-1 my-3 mx-auto items-center">
-        Sing in
+        {type === "login" ? "Sing in" : "Sign up"}
       </Text>
       <TextInput
         label="Email"
         mode="outlined"
+        autoCapitalize="none"
         placeholder="joe.doe@email.com"
         placeholderTextColor={Colors[colorScheme ?? "light"].inputBorder}
-        onChangeText={() => {}}
+        onChangeText={(text) => setEmail(text)}
         outlineColor={Colors[colorScheme ?? "light"].inputBorder} // border color when not focused
         activeOutlineColor={Colors[colorScheme ?? "light"].inputBorderFocused} // border color when focused (e.g. green)
         theme={{
@@ -28,9 +40,10 @@ const LoginForm = () => {
       <TextInput
         label="Password"
         mode="outlined"
+        autoCapitalize="none"
         placeholder="************"
         placeholderTextColor={Colors[colorScheme ?? "light"].inputBorder}
-        onChangeText={() => {}}
+        onChangeText={(text) => setPassword(text)}
         outlineColor={Colors[colorScheme ?? "light"].inputBorder}
         activeOutlineColor={Colors[colorScheme ?? "light"].inputBorderFocused}
         theme={{
@@ -42,17 +55,19 @@ const LoginForm = () => {
         contentStyle={{ paddingHorizontal: 10 }}
         secureTextEntry
       />
-      <Button
-        mode="contained"
-        className="mt-3"
-        contentStyle={{ height: 50 }}
-        onPress={() => console.log("Pressed")}
-        buttonColor={Colors[colorScheme ?? "light"].button}
-      >
-        Sing in
-      </Button>
+      <View className="mt-3">
+        <Button
+          mode="contained"
+          labelStyle={{ fontSize: 18 }}
+          contentStyle={{ height: 50 }}
+          onPress={() => signUpOrLogin({ email, password, authType: type })}
+          buttonColor={Colors[colorScheme ?? "light"].button}
+        >
+          {type === "login" ? "Sing in" : "Sign up"}
+        </Button>
+      </View>
     </View>
   );
 };
 
-export default LoginForm;
+export default AuthForm;
