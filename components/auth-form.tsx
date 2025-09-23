@@ -4,12 +4,13 @@ import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 import { useColorScheme, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
+import { AuthType } from "./types/types";
 
-type AuthType = {
-  type: "login" | "signUp";
+export type AuthFormType = {
+  type: AuthType;
 };
 
-const AuthForm = ({ type }: AuthType) => {
+const AuthForm = ({ type }: AuthFormType) => {
   const colorScheme = useColorScheme();
   const [email, setEmail] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);

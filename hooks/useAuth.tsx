@@ -1,3 +1,4 @@
+import { AuthType } from "@/components/types/types";
 import { auth } from "@/firebase";
 import * as SplashScreen from "expo-splash-screen";
 import {
@@ -24,10 +25,7 @@ type Props = {
 type AuthUserType = {
   email: string | null;
   password: string | null;
-  authType: "login" | "signUp";
-};
-type AuthType = {
-  authType: "login" | "signUp";
+  authType: AuthType;
 };
 
 type AuthContextType = {
