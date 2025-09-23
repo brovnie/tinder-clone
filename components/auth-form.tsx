@@ -1,4 +1,3 @@
-"use client";
 import { Colors } from "@/constants/theme";
 import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
