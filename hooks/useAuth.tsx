@@ -96,7 +96,6 @@ export const AuthProvider = ({ children }: Props) => {
         authType === "signUp"
           ? await createUserWithEmailAndPassword(auth, email, password)
           : await signInWithEmailAndPassword(auth, email, password);
-      console.log(response);
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
