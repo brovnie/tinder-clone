@@ -32,7 +32,7 @@ type AuthContextType = {
   user: User | null;
   setUser: Dispatch<SetStateAction<User | null>>;
   signUpOrLogin: ({ email, password, authType }: AuthUserType) => void;
-  error: string | null | unknown;
+  error: string | null;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -45,7 +45,7 @@ const AuthContext = createContext<AuthContextType>({
 export const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<User | null>(null);
   const [loadingInitial, setLoadingInitial] = useState(true); // set loading state
-  const [error, setError] = useState<string | null | unknown>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     SplashScreen.preventAutoHideAsync().catch(() => {
@@ -62,7 +62,11 @@ export const AuthProvider = ({ children }: Props) => {
         setLoadingInitial(false);
       });
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("Unknown error has occured.");
+      }
     }
   }, []);
 
@@ -78,8 +82,13 @@ export const AuthProvider = ({ children }: Props) => {
     try {
       setLoadingInitial(true);
       if (!email || !password) {
-        setError("Email or password is empty");
-        console.log("Null value detected");
+        if (!email && !password) {
+          setError("Please fill the inputs.");
+        } else if (!email) {
+          setError("Email is empty. Please fill in the email.");
+        } else {
+          setError("Password is empty. Please fill in the password input.");
+        }
         setLoadingInitial(false);
         return;
       }
@@ -88,7 +97,11 @@ export const AuthProvider = ({ children }: Props) => {
           ? await createUserWithEmailAndPassword(auth, email, password)
           : await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
-      setError(error);
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("Unknown error has occured.");
+      }
     } finally {
       setLoadingInitial(false);
     }

@@ -14,13 +14,18 @@ const AuthForm = ({ type }: AuthFormType) => {
   const colorScheme = useColorScheme();
   const [email, setEmail] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
-  const { signUpOrLogin } = useAuth();
-
+  const { signUpOrLogin, error } = useAuth();
+  console.log(error);
   return (
     <View className="flex-col w-full gap-3 justify-center">
       <Text className="text-4xl border-red-400 dark:border-rose-900 border-b-8 py-1 my-3 mx-auto items-center">
         {type === "login" ? "Sing in" : "Sign up"}
       </Text>
+      {error && (
+        <Text className="bg-red-300 dark:bg-red-800 rounded-sm p-3">
+          {error}
+        </Text>
+      )}
       <TextInput
         label="Email"
         mode="outlined"
@@ -28,7 +33,9 @@ const AuthForm = ({ type }: AuthFormType) => {
         placeholder="joe.doe@email.com"
         placeholderTextColor={Colors[colorScheme ?? "light"].inputBorder}
         onChangeText={(text) => setEmail(text)}
-        outlineColor={Colors[colorScheme ?? "light"].inputBorder} // border color when not focused
+        outlineColor={
+          !error ? Colors[colorScheme ?? "light"].inputBorder : "red"
+        } // border color when not focused
         activeOutlineColor={Colors[colorScheme ?? "light"].inputBorderFocused} // border color when focused (e.g. green)
         theme={{
           colors: {
@@ -45,7 +52,9 @@ const AuthForm = ({ type }: AuthFormType) => {
         placeholder="************"
         placeholderTextColor={Colors[colorScheme ?? "light"].inputBorder}
         onChangeText={(text) => setPassword(text)}
-        outlineColor={Colors[colorScheme ?? "light"].inputBorder}
+        outlineColor={
+          !error ? Colors[colorScheme ?? "light"].inputBorder : "red"
+        }
         activeOutlineColor={Colors[colorScheme ?? "light"].inputBorderFocused}
         theme={{
           colors: {
