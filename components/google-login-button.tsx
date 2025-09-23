@@ -8,7 +8,7 @@ import {
 } from "@react-native-google-signin/google-signin";
 import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
 
-import { View } from "react-native";
+import { Text, View } from "react-native";
 
 GoogleSignin.configure({
   webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID,
@@ -56,7 +56,12 @@ const GoogleLoginButton = () => {
   };
 
   return (
-    <View>
+    <View className="mt-6 items-center">
+      <View className="flex-row w-full mb-3 justify-center items-center">
+        <View className="h-1 flex-1 bg-slate-200 mr-10"></View>
+        <Text className="text-xl">or</Text>
+        <View className="h-1 flex-1 bg-slate-200 ml-10"></View>
+      </View>
       <GoogleSigninButton
         size={GoogleSigninButton.Size.Wide}
         color={GoogleSigninButton.Color.Light}
