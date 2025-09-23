@@ -8,9 +8,11 @@ export default function TabLayout() {
   return (
     <Tab.Navigator
       screenOptions={{
+        tabBarShowLabel: false,
         tabBarIndicatorStyle: {
           backgroundColor: "transparent",
         },
+        tabBarStyle: { display: "none" },
       }}
     >
       <Tab.Screen name="index" component={HomeScreen} />
