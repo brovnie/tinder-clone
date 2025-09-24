@@ -2,8 +2,9 @@ import { Colors } from "@/constants/theme";
 import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 import { useColorScheme, View } from "react-native";
-import { Button, Text, TextInput } from "react-native-paper";
+import { Button, Text } from "react-native-paper";
 import { AuthType } from "./types/types";
+import FieldInput from "./ui/field-input";
 
 export type AuthFormType = {
   type: AuthType;
@@ -24,43 +25,17 @@ const AuthForm = ({ type }: AuthFormType) => {
           {error}
         </Text>
       )}
-      <TextInput
+      <FieldInput
         label="Email"
-        mode="outlined"
-        autoCapitalize="none"
         placeholder="joe.doe@email.com"
-        placeholderTextColor={Colors[colorScheme ?? "light"].inputBorder}
         onChangeText={(text) => setEmail(text)}
-        outlineColor={
-          !error ? Colors[colorScheme ?? "light"].inputBorder : "red"
-        }
-        activeOutlineColor={Colors[colorScheme ?? "light"].inputBorderFocused}
-        theme={{
-          colors: {
-            primary: "#4ade80",
-            error: "#dc2626",
-          },
-        }}
-        contentStyle={{ paddingHorizontal: 10 }}
+        error={error}
       />
-      <TextInput
+      <FieldInput
         label="Password"
-        mode="outlined"
-        autoCapitalize="none"
-        placeholder="************"
-        placeholderTextColor={Colors[colorScheme ?? "light"].inputBorder}
+        placeholder="********"
         onChangeText={(text) => setPassword(text)}
-        outlineColor={
-          !error ? Colors[colorScheme ?? "light"].inputBorder : "red"
-        }
-        activeOutlineColor={Colors[colorScheme ?? "light"].inputBorderFocused}
-        theme={{
-          colors: {
-            primary: "#4ade80",
-            error: "#dc2626",
-          },
-        }}
-        contentStyle={{ paddingHorizontal: 10 }}
+        error={error}
         secureTextEntry
       />
       <View className="mt-3">
