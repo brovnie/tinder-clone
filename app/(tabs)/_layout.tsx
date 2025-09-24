@@ -15,11 +15,7 @@ export default function TabLayout() {
         tabBarStyle: { display: "none" },
       }}
     >
-      <Tab.Screen
-        name="index"
-        component={HomeScreen}
-        options={{ swipeEnabled: false }}
-      />
+      <Tab.Screen name="index" component={HomeScreen} />
       <Tab.Screen name="chat" component={Chat} />
     </Tab.Navigator>
   );

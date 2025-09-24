@@ -1,6 +1,8 @@
 import { Colors } from "@/constants/theme";
+import { useEffect, useRef } from "react";
 import { Image, Text, useColorScheme, View } from "react-native";
 import Swiper from "react-native-deck-swiper";
+import { Card } from "./types/types";
 
 const DUMMY_DATA = [
   {
@@ -28,12 +30,26 @@ const DUMMY_DATA = [
     age: 30,
   },
 ];
-const CardSwiper = () => {
+
+type CardSwiperProps = {
+  setSwipeRef: React.Dispatch<React.SetStateAction<Swiper<Card> | null>>;
+};
+
+const CardSwiper = ({ setSwipeRef }: CardSwiperProps) => {
   const colorScheme = useColorScheme();
+  const swipeRef = useRef(null);
+
+  useEffect(() => {
+    if (swipeRef.current) {
+      setSwipeRef(swipeRef.current);
+    }
+  }, []);
+
   return (
     <Swiper
+      ref={swipeRef}
       cards={DUMMY_DATA}
-      containerStyle={{ borderRadius: 20 }}
+      containerStyle={{ borderRadius: 20, padding: 0, margin: 0 }}
       renderCard={(card) => {
         return (
           <View
@@ -58,8 +74,11 @@ const CardSwiper = () => {
           </View>
         );
       }}
-      onSwiped={(cardIndex) => {
-        console.log(cardIndex);
+      onSwipedLeft={() => {
+        console.log("Swipe Nope");
+      }}
+      onSwipedRight={() => {
+        console.log("swipe match");
       }}
       onSwipedAll={() => {
         console.log("onSwipedAll");
