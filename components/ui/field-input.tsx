@@ -1,5 +1,5 @@
 import { Colors } from "@/constants/theme";
-import { useColorScheme, View } from "react-native";
+import { KeyboardTypeOptions, useColorScheme, View } from "react-native";
 import { TextInput } from "react-native-paper";
 
 type FieldInputType = {
@@ -8,6 +8,7 @@ type FieldInputType = {
   label: string;
   placeholder: string;
   secureTextEntry?: boolean;
+  keyboardType?: KeyboardTypeOptions | undefined;
 };
 
 const FieldInput = ({
@@ -16,6 +17,7 @@ const FieldInput = ({
   placeholder,
   label,
   secureTextEntry = false,
+  keyboardType = "default",
 }: FieldInputType) => {
   const colorScheme = useColorScheme();
   return (
@@ -39,6 +41,7 @@ const FieldInput = ({
         }}
         contentStyle={{ paddingHorizontal: 10 }}
         secureTextEntry={secureTextEntry}
+        keyboardType={keyboardType}
       />
     </View>
   );

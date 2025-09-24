@@ -31,7 +31,7 @@ const AppRouter = () => {
         <Stack.Screen name="(tabs)" options={{ header: () => <Header /> }} />
         <Stack.Screen
           name="modal"
-          options={{ presentation: "modal", title: "Modal" }}
+          options={{ presentation: "modal", headerShown: false }}
         />
       </Stack.Protected>
     </Stack>

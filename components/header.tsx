@@ -18,9 +18,11 @@ const Header = () => {
   return (
     <Appbar.Header>
       <View className="flex-row justify-between items-center flex-1 px-5">
-        <TouchableOpacity>
-          <Avatar.Image size={32} source={photo} />
-        </TouchableOpacity>
+        <Link href="/modal" asChild>
+          <TouchableOpacity>
+            <Avatar.Image size={32} source={photo} />
+          </TouchableOpacity>
+        </Link>
         <Link href="/" asChild>
           <TouchableOpacity>
             <Image
