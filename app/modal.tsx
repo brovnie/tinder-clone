@@ -32,7 +32,7 @@ export default function ModalScreen() {
 
   const allSteps: (Step | false)[] = [
     !user?.displayName && {
-      label: "Your name: can be set only once",
+      label: "Your name",
       inputField: (
         <FieldInput
           label=""

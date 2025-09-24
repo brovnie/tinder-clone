@@ -30,11 +30,20 @@ type AuthUserType = {
   authType: AuthType;
 };
 
+type UserProfilAuthData = {
+  displayName?: string;
+  photoURL?: string;
+};
+
 type AuthContextType = {
   user: User | null;
   setUser: Dispatch<SetStateAction<User | null>>;
   signUpOrLogin: ({ email, password, authType }: AuthUserType) => void;
   error: string | null;
+  updateUserAuthProfile: ({
+    displayName,
+    photoURL,
+  }: UserProfilAuthData) => void;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -42,6 +51,7 @@ const AuthContext = createContext<AuthContextType>({
   setUser: () => {},
   signUpOrLogin({ email, password, authType }) {},
   error: null,
+  updateUserAuthProfile({ displayName, photoURL }) {},
 });
 
 export const AuthProvider = ({ children }: Props) => {
