@@ -9,6 +9,7 @@ type FieldInputType = {
   placeholder: string;
   secureTextEntry?: boolean;
   keyboardType?: KeyboardTypeOptions | undefined;
+  value?: string | null;
 };
 
 const FieldInput = ({
@@ -18,6 +19,7 @@ const FieldInput = ({
   label,
   secureTextEntry = false,
   keyboardType = "default",
+  value,
 }: FieldInputType) => {
   const colorScheme = useColorScheme();
   return (
@@ -42,6 +44,7 @@ const FieldInput = ({
         contentStyle={{ paddingHorizontal: 10 }}
         secureTextEntry={secureTextEntry}
         keyboardType={keyboardType}
+        value={value ? value : undefined}
       />
     </View>
   );

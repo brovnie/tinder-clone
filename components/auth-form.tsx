@@ -1,9 +1,9 @@
-import { Colors } from "@/constants/theme";
 import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
-import { useColorScheme, View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { View } from "react-native";
+import { Text } from "react-native-paper";
 import { AuthType } from "./types/types";
+import Btn from "./ui/button";
 import FieldInput from "./ui/field-input";
 
 export type AuthFormType = {
@@ -11,10 +11,10 @@ export type AuthFormType = {
 };
 
 const AuthForm = ({ type }: AuthFormType) => {
-  const colorScheme = useColorScheme();
   const [email, setEmail] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
   const { signUpOrLogin, error } = useAuth();
+
   return (
     <View className="flex-col w-full gap-3 justify-center">
       <Text className="text-4xl border-red-400 dark:border-rose-900 border-b-8 py-1 my-3 mx-auto items-center">
@@ -39,16 +39,10 @@ const AuthForm = ({ type }: AuthFormType) => {
         secureTextEntry
       />
       <View className="mt-3">
-        <Button
-          mode="contained"
-          labelStyle={{ fontSize: 18 }}
-          contentStyle={{ height: 50 }}
+        <Btn
           onPress={() => signUpOrLogin({ email, password, authType: type })}
-          buttonColor={Colors[colorScheme ?? "light"].button}
-          textColor="white"
-        >
-          {type === "login" ? "Sing in" : "Sign up"}
-        </Button>
+          text={type === "login" ? "Sing in" : "Sign up"}
+        />
       </View>
     </View>
   );

@@ -5,6 +5,8 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signOut,
+  updateProfile,
   User,
 } from "firebase/auth";
 import {
@@ -46,6 +48,7 @@ export const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<User | null>(null);
   const [loadingInitial, setLoadingInitial] = useState(true); // set loading state
   const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccesMessage] = useState<string | null>(null);
 
   useEffect(() => {
     SplashScreen.preventAutoHideAsync().catch(() => {
@@ -107,9 +110,49 @@ export const AuthProvider = ({ children }: Props) => {
     }
   };
 
+  const updateUserAuthProfile = (data: {
+    displayName?: string;
+    photoURL?: string;
+  }) => {
+    if (!user) {
+      setError("User is not authenticated.");
+      return;
+    }
+    updateProfile(user, { ...data })
+      .then(() => {
+        console.log("Profile updated");
+        setSuccesMessage("Profile updated!");
+      })
+      .catch((error) => {
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError("Unknown error has occured.");
+        }
+      });
+  };
+
+  const signOutUser = () => {
+    signOut(auth).catch((error) => {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("Unknown error has occured.");
+      }
+    });
+  };
+
   const memedValues = useMemo(
-    () => ({ user, setUser, signUpOrLogin, error }),
-    [user, error]
+    () => ({
+      user,
+      setUser,
+      signUpOrLogin,
+      updateUserAuthProfile,
+      error,
+      successMessage,
+      signOutUser,
+    }),
+    [user, error, successMessage]
   );
 
   if (loadingInitial) {
