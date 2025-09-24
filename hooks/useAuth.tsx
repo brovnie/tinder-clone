@@ -40,6 +40,7 @@ type AuthContextType = {
   setUser: Dispatch<SetStateAction<User | null>>;
   signUpOrLogin: ({ email, password, authType }: AuthUserType) => void;
   error: string | null;
+  signOutUser: () => void;
   updateUserAuthProfile: ({
     displayName,
     photoURL,
@@ -52,6 +53,7 @@ const AuthContext = createContext<AuthContextType>({
   signUpOrLogin({ email, password, authType }) {},
   error: null,
   updateUserAuthProfile({ displayName, photoURL }) {},
+  signOutUser() {},
 });
 
 export const AuthProvider = ({ children }: Props) => {

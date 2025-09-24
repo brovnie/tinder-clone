@@ -11,7 +11,7 @@ type Step = {
 };
 
 export default function ModalScreen() {
-  const { user, updateUserAuthProfile } = useAuth();
+  const { user, updateUserAuthProfile, signOutUser } = useAuth();
   const [name, setName] = useState<string>("");
   const [avatar, setAvatar] = useState<string>("");
   const [profilePicture, setProfilePicture] = useState<string>("");
@@ -120,7 +120,7 @@ export default function ModalScreen() {
             <View className="h-1 my-4 flex-1 bg-slate-200 mx-10 w-full"></View>
 
             <View className="w-full px-10 ">
-              <Btn onPress={() => {}} text="Logout" />
+              <Btn onPress={signOutUser} text="Logout" />
             </View>
             <View className="h-1 my-4 flex-1 bg-slate-200 mx-10 w-full"></View>
             <View>
