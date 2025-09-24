@@ -2,7 +2,13 @@ import { Colors } from "@/constants/theme";
 import { useColorScheme } from "react-native";
 import { Button } from "react-native-paper";
 
-const Btn = ({ text, onPress }: { text: string; onPress: () => void }) => {
+type BtnType = {
+  text: string;
+  onPress: () => void;
+  disabled?: boolean;
+};
+
+const Btn = ({ text, onPress, disabled = false }: BtnType) => {
   const colorScheme = useColorScheme();
 
   return (
@@ -13,6 +19,7 @@ const Btn = ({ text, onPress }: { text: string; onPress: () => void }) => {
       onPress={onPress}
       buttonColor={Colors[colorScheme ?? "light"].button}
       textColor="white"
+      disabled={disabled}
     >
       {text}
     </Button>

@@ -1,7 +1,7 @@
 import Btn from "@/components/ui/button";
 import FieldInput from "@/components/ui/field-input";
 import { useAuth } from "@/hooks/useAuth";
-import { JSX, useState } from "react";
+import { JSX, useEffect, useState } from "react";
 import { Image, ScrollView, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
@@ -12,15 +12,25 @@ type Step = {
 
 export default function ModalScreen() {
   const { user, updateUserAuthProfile } = useAuth();
-  const [name, setName] = useState<string | null>(null);
-  const [avatar, setAvatar] = useState<string | null>(null);
-  const [profilePicture, setProfilePicture] = useState<string | null>(null);
-  const [occupation, setOccupation] = useState<string | null>(null);
-  const [age, setAge] = useState<string | null>(null);
+  const [name, setName] = useState<string>("");
+  const [avatar, setAvatar] = useState<string>("");
+  const [profilePicture, setProfilePicture] = useState<string>("");
+  const [occupation, setOccupation] = useState<string>("");
+  const [age, setAge] = useState<string>("");
+  const [incompletedForm, setIncompletedForm] = useState<boolean>(false);
+
+  useEffect(() => {
+    const isAnyFieldFilled = [
+      name,
+      avatar,
+      profilePicture,
+      occupation,
+      age,
+    ].some((value) => value.trim() !== "");
+    setIncompletedForm(!isAnyFieldFilled);
+  }, [name, avatar, profilePicture, occupation, age]);
 
   const updateProfile = () => {
-    //remove data for user one
-    // updateUserAuthProfile({photoURL: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=928&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"});
     if (name || avatar) {
       const data: { [key: string]: any } = {};
       name && (data["displayName"] = name);
@@ -132,6 +142,7 @@ export default function ModalScreen() {
                   updateProfile();
                 }}
                 text="Update Profile"
+                disabled={incompletedForm}
               />
             </View>
           </View>
