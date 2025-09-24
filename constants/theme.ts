@@ -19,6 +19,8 @@ export const Colors = {
     inputBorder: "#ccc",
     inputBorderFocused: "#fda4af",
     button: "#f43f5e",
+    cardWrapperNope: "#ef4444",
+    cardWrapperMatch: "#10b981",
   },
   dark: {
     text: "#ECEDEE",
@@ -30,6 +32,8 @@ export const Colors = {
     inputBorder: "#52525b",
     inputBorderFocused: "#881337",
     button: "#881337",
+    cardWrapperNope: "#991b1b",
+    cardWrapperMatch: "#166534",
   },
 };
 
