@@ -70,22 +70,25 @@ const CardSwiper = ({ setSwipeRef }: CardSwiperProps) => {
   }, []);
 
   useEffect(() => {
-    const fetchCards = async () => {
-      const unsibscribe = onSnapshot(collection(db, "users"), (snapshot) => {
+    const fetchCards = async () =>
+      onSnapshot(collection(db, "users"), (snapshot) => {
         setProfiles(
-          snapshot.docs.map((doc) => {
-            const data = doc.data();
-            return {
-              id: doc.id,
-              firstName: data.displayName,
-              photoURL: data.photoURL,
-              occupation: data.occupation,
-              age: data.age,
-            } as ProfileCard;
-          })
+          snapshot.docs
+            .filter((doc) => {
+              return doc.id !== user?.uid;
+            })
+            .map((doc) => {
+              const data = doc.data();
+              return {
+                id: doc.id,
+                firstName: data.displayName,
+                photoURL: data.photoURL,
+                occupation: data.occupation,
+                age: data.age,
+              } as ProfileCard;
+            })
         );
       });
-    };
     fetchCards();
   }, []);
 

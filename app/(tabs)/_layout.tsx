@@ -7,7 +7,7 @@ const Tab = createMaterialTopTabNavigator();
 
 export default function TabLayout() {
   const [swipeEnabled, setSwipeEnabled] = useState(false);
-
+  console.log(swipeEnabled);
   return (
     <Tab.Navigator
       screenOptions={{
