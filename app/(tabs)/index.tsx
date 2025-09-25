@@ -1,20 +1,12 @@
 import CardSwiper from "@/components/swiper";
 import { Card } from "@/components/types/types";
 import { AntDesign, Entypo } from "@expo/vector-icons";
-import { useNavigation } from "expo-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 import type Swiper from "react-native-deck-swiper";
 
 export default function HomeScreen() {
-  const navigation = useNavigation();
   const [swipeRef, setSwipeRef] = useState<Swiper<Card> | null>(null);
-
-  useEffect(() => {
-    navigation.setOptions({
-      swipeEnabled: false,
-    });
-  }, [navigation]);
 
   return (
     <View className="flex-1">

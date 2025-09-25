@@ -1,5 +1,9 @@
 import { Colors } from "@/constants/theme";
-import { useEffect, useRef } from "react";
+import { db } from "@/firebase";
+import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "expo-router";
+import { doc, onSnapshot } from "firebase/firestore";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Image, Text, useColorScheme, View } from "react-native";
 import Swiper from "react-native-deck-swiper";
 import { Card } from "./types/types";
@@ -35,9 +39,35 @@ type CardSwiperProps = {
   setSwipeRef: React.Dispatch<React.SetStateAction<Swiper<Card> | null>>;
 };
 
+type ProfileCard = {
+  firstName: string;
+  photoURL: string;
+  occupation: string;
+  age: string;
+};
+
 const CardSwiper = ({ setSwipeRef }: CardSwiperProps) => {
   const colorScheme = useColorScheme();
   const swipeRef = useRef(null);
+  const [profiles, setProfiles] = useState<ProfileCard[]>([]);
+  const { user } = useAuth();
+  const router = useRouter();
+
+  // show modal if the user profile not set
+  useLayoutEffect(() => {
+    if (user) {
+      const unsibscribe = onSnapshot(
+        doc(db, "users", user?.uid),
+        (snapshot) => {
+          console.log(snapshot);
+          if (!snapshot.exists()) {
+            router.push("/modal");
+          }
+        }
+      );
+      return () => unsibscribe();
+    }
+  }, []);
 
   useEffect(() => {
     if (swipeRef.current) {
@@ -45,33 +75,45 @@ const CardSwiper = ({ setSwipeRef }: CardSwiperProps) => {
     }
   }, []);
 
+  if (profiles.length === 0) {
+    return (
+      <View className="flex-1 items-center justify-center">
+        <Text className="text-3xl font-bold text-slate-400 dark:text-slate-600">
+          No Profiles found 😔
+        </Text>
+      </View>
+    );
+  }
+
   return (
     <Swiper
       ref={swipeRef}
-      cards={DUMMY_DATA}
+      cards={profiles}
       containerStyle={{ borderRadius: 20, padding: 0, margin: 0 }}
       renderCard={(card) => {
         return (
-          <View
-            key={card.firstName}
-            className="bg-white dark:bg-slate-800 h-3/4 w-full shadow-lg rounded-2xl  relative"
-          >
-            <Image
-              source={{ uri: card.photoURL }}
-              className="w-full h-full rounded-2xl absolute top-0 left-0"
-            />
-            <View className="w-full h-20 bg-white dark:bg-slate-600 absolute bottom-0 items-center justify-between flex-row px-6 py-2 rounded-b-2xl ">
-              <View>
-                <Text className="dark:text-white text-xl font-bold">
-                  {card.firstName}
+          card && (
+            <View
+              key={card.firstName}
+              className="bg-white dark:bg-slate-800 h-3/4 w-full shadow-lg rounded-2xl  relative"
+            >
+              <Image
+                source={{ uri: card.photoURL }}
+                className="w-full h-full rounded-2xl absolute top-0 left-0"
+              />
+              <View className="w-full h-20 bg-white dark:bg-slate-600 absolute bottom-0 items-center justify-between flex-row px-6 py-2 rounded-b-2xl ">
+                <View>
+                  <Text className="dark:text-white text-xl font-bold">
+                    {card.firstName}
+                  </Text>
+                  <Text className="dark:text-white">{card.occupation}</Text>
+                </View>
+                <Text className="dark:text-white text-2xl font-bold">
+                  {card.age}
                 </Text>
-                <Text className="dark:text-white">{card.occupation}</Text>
               </View>
-              <Text className="dark:text-white text-2xl font-bold">
-                {card.age}
-              </Text>
             </View>
-          </View>
+          )
         );
       }}
       onSwipedLeft={() => {
