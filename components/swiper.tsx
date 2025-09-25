@@ -2,7 +2,7 @@ import { Colors } from "@/constants/theme";
 import { db } from "@/firebase";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "expo-router";
-import { doc, onSnapshot } from "firebase/firestore";
+import { collection, doc, onSnapshot } from "firebase/firestore";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Image, Text, useColorScheme, View } from "react-native";
 import Swiper from "react-native-deck-swiper";
@@ -40,6 +40,7 @@ type CardSwiperProps = {
 };
 
 type ProfileCard = {
+  id: string;
   firstName: string;
   photoURL: string;
   occupation: string;
@@ -59,7 +60,6 @@ const CardSwiper = ({ setSwipeRef }: CardSwiperProps) => {
       const unsibscribe = onSnapshot(
         doc(db, "users", user?.uid),
         (snapshot) => {
-          console.log(snapshot);
           if (!snapshot.exists()) {
             router.push("/modal");
           }
@@ -67,6 +67,26 @@ const CardSwiper = ({ setSwipeRef }: CardSwiperProps) => {
       );
       return () => unsibscribe();
     }
+  }, []);
+
+  useEffect(() => {
+    const fetchCards = async () => {
+      const unsibscribe = onSnapshot(collection(db, "users"), (snapshot) => {
+        setProfiles(
+          snapshot.docs.map((doc) => {
+            const data = doc.data();
+            return {
+              id: doc.id,
+              firstName: data.displayName,
+              photoURL: data.photoURL,
+              occupation: data.occupation,
+              age: data.age,
+            } as ProfileCard;
+          })
+        );
+      });
+    };
+    fetchCards();
   }, []);
 
   useEffect(() => {

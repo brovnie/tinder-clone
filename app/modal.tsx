@@ -129,7 +129,7 @@ export default function ModalScreen() {
               className="w-full h-28"
             />
             <Text className="dark:text-white text-3xl ">
-              Welcome {user?.displayName ? user?.displayName : user?.email}
+              Welcome {user?.displayName}
             </Text>
             <View className="h-1 my-4 flex-1 bg-slate-200 mx-10 w-full"></View>
 
