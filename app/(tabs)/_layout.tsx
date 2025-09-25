@@ -6,7 +6,7 @@ import Chat from "./chat";
 const Tab = createMaterialTopTabNavigator();
 
 export default function TabLayout() {
-  const [swipeEnabled, setSwipeEnabled] = useState(true);
+  const [swipeEnabled, setSwipeEnabled] = useState(false);
 
   return (
     <Tab.Navigator
