@@ -1,9 +1,8 @@
 import { Colors } from "@/constants/theme";
 import { db } from "@/firebase";
 import { useAuth } from "@/hooks/useAuth";
-import { useRouter } from "expo-router";
-import { collection, doc, onSnapshot } from "firebase/firestore";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { collection, onSnapshot } from "firebase/firestore";
+import { useEffect, useRef, useState } from "react";
 import { Image, Text, useColorScheme, View } from "react-native";
 import Swiper from "react-native-deck-swiper";
 import { Card } from "./types/types";
@@ -52,22 +51,6 @@ const CardSwiper = ({ setSwipeRef }: CardSwiperProps) => {
   const swipeRef = useRef(null);
   const [profiles, setProfiles] = useState<ProfileCard[]>([]);
   const { user } = useAuth();
-  const router = useRouter();
-
-  // show modal if the user profile not set
-  useLayoutEffect(() => {
-    if (user) {
-      const unsibscribe = onSnapshot(
-        doc(db, "users", user?.uid),
-        (snapshot) => {
-          if (!snapshot.exists()) {
-            router.push("/modal");
-          }
-        }
-      );
-      return () => unsibscribe();
-    }
-  }, []);
 
   useEffect(() => {
     const fetchCards = async () =>

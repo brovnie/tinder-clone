@@ -1,12 +1,34 @@
 import CardSwiper from "@/components/swiper";
 import { Card } from "@/components/types/types";
+import { db } from "@/firebase";
+import { useAuth } from "@/hooks/useAuth";
 import { AntDesign, Entypo } from "@expo/vector-icons";
-import { useState } from "react";
+import { useRouter } from "expo-router";
+import { doc, onSnapshot } from "firebase/firestore";
+import { useLayoutEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 import type Swiper from "react-native-deck-swiper";
 
 export default function HomeScreen() {
   const [swipeRef, setSwipeRef] = useState<Swiper<Card> | null>(null);
+  const router = useRouter();
+  const { user } = useAuth();
+
+  // show modal if the user profile not set
+  useLayoutEffect(() => {
+    if (user) {
+      const unsibscribe = onSnapshot(
+        doc(db, "users", user?.uid),
+        (snapshot) => {
+          if (!snapshot.exists()) {
+            router.push("/modal");
+            return; // do not render the rest of home screen
+          }
+        }
+      );
+      return () => unsibscribe();
+    }
+  }, []);
 
   return (
     <View className="flex-1">
