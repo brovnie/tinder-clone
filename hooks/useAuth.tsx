@@ -70,7 +70,6 @@ export const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<User | null>(null);
   const [loadingInitial, setLoadingInitial] = useState(true); // set loading state
   const [error, setError] = useState<string | null>(null);
-  const [successMessage, setSuccesMessage] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -144,7 +143,6 @@ export const AuthProvider = ({ children }: Props) => {
     updateProfile(user, { ...data })
       .then(() => {
         console.log("Profile updated");
-        setSuccesMessage("Profile updated!");
       })
       .catch((error) => {
         if (error instanceof Error) {
@@ -201,11 +199,10 @@ export const AuthProvider = ({ children }: Props) => {
       signUpOrLogin,
       updateUserAuthProfile,
       error,
-      successMessage,
       signOutUser,
       updateUserProfile,
     }),
-    [user, error, successMessage]
+    [user, error]
   );
 
   if (loadingInitial) {

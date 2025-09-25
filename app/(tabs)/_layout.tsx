@@ -7,9 +7,10 @@ const Tab = createMaterialTopTabNavigator();
 
 export default function TabLayout() {
   const [swipeEnabled, setSwipeEnabled] = useState(false);
-  console.log(swipeEnabled);
+  //First time swipe is true on ios: https://github.com/react-navigation/react-navigation/issues/12668
   return (
     <Tab.Navigator
+      initialRouteName="index"
       screenOptions={{
         tabBarShowLabel: false,
         tabBarIndicatorStyle: {

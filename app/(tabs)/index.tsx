@@ -22,7 +22,6 @@ export default function HomeScreen() {
         (snapshot) => {
           if (!snapshot.exists()) {
             router.push("/modal");
-            return; // do not render the rest of home screen
           }
         }
       );

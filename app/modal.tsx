@@ -40,6 +40,7 @@ export default function ModalScreen() {
       avatar && (authProfileData["photoURL"] = avatar);
       updateUserAuthProfile(authProfileData);
     }
+
     //when only authprofile has to be updated
     if (!profilePicture || !age || !occupation) {
       router.push("/");
