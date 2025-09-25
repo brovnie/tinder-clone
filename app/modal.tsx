@@ -11,7 +11,8 @@ type Step = {
 };
 
 export default function ModalScreen() {
-  const { user, updateUserAuthProfile, signOutUser } = useAuth();
+  const { user, updateUserAuthProfile, updateUserProfile, signOutUser } =
+    useAuth();
   const [name, setName] = useState<string>("");
   const [avatar, setAvatar] = useState<string>("");
   const [profilePicture, setProfilePicture] = useState<string>("");
@@ -32,12 +33,19 @@ export default function ModalScreen() {
 
   const updateProfile = () => {
     if (name || avatar) {
-      const data: { [key: string]: any } = {};
-      name && (data["displayName"] = name);
-      avatar && (data["photoURL"] = avatar);
+      let authProfileData: { [key: string]: any } = {};
+      name && (authProfileData["displayName"] = name);
+      avatar && (authProfileData["photoURL"] = avatar);
 
-      updateUserAuthProfile(data);
+      updateUserAuthProfile(authProfileData);
     }
+
+    const profileData: { [key: string]: any } = {};
+    profilePicture && (profileData["photoURL"] = profilePicture);
+    age && (profileData["age"] = age);
+    occupation && (profileData["occupation"] = occupation);
+
+    updateUserProfile({ ...profileData });
   };
 
   const allSteps: (Step | false)[] = [

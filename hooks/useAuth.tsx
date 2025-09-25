@@ -1,5 +1,6 @@
 import { AuthType } from "@/components/types/types";
-import { auth } from "@/firebase";
+import { auth, db } from "@/firebase";
+import { useRouter } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import {
   createUserWithEmailAndPassword,
@@ -9,6 +10,7 @@ import {
   updateProfile,
   User,
 } from "firebase/auth";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import {
   createContext,
   Dispatch,
@@ -35,6 +37,12 @@ type UserProfilAuthData = {
   photoURL?: string;
 };
 
+type UserAuthData = {
+  photoURL?: string;
+  occupation?: string;
+  age?: number;
+};
+
 type AuthContextType = {
   user: User | null;
   setUser: Dispatch<SetStateAction<User | null>>;
@@ -45,15 +53,17 @@ type AuthContextType = {
     displayName,
     photoURL,
   }: UserProfilAuthData) => void;
+  updateUserProfile: ({ photoURL, occupation, age }: UserAuthData) => void;
 };
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   setUser: () => {},
-  signUpOrLogin({ email, password, authType }) {},
+  signUpOrLogin: ({ email, password, authType }) => {},
   error: null,
-  updateUserAuthProfile({ displayName, photoURL }) {},
-  signOutUser() {},
+  updateUserAuthProfile: ({ displayName, photoURL }) => {},
+  signOutUser: () => {},
+  updateUserProfile: ({ photoURL, occupation, age }) => {},
 });
 
 export const AuthProvider = ({ children }: Props) => {
@@ -61,7 +71,7 @@ export const AuthProvider = ({ children }: Props) => {
   const [loadingInitial, setLoadingInitial] = useState(true); // set loading state
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccesMessage] = useState<string | null>(null);
-
+  const router = useRouter();
   useEffect(() => {
     SplashScreen.preventAutoHideAsync().catch(() => {
       console.log("error splash screen show");
@@ -144,6 +154,36 @@ export const AuthProvider = ({ children }: Props) => {
       });
   };
 
+  const updateUserProfile = ({ photoURL, occupation, age }: UserAuthData) => {
+    if (user) {
+      const data: { [key: string]: any } = {};
+      photoURL && (data["photoURL"] = photoURL);
+      occupation && (data["occupation"] = occupation);
+      age && (data["age"] = age);
+      console.log("you here");
+      setDoc(
+        doc(db, "users", user.uid),
+        {
+          id: user.uid,
+          displayName: user.displayName,
+          ...data,
+          timestemp: serverTimestamp(),
+        },
+        { merge: true }
+      )
+        .then(() => {
+          router.push("/");
+        })
+        .catch((error) => {
+          if (error instanceof Error) {
+            setError(error.message);
+          } else {
+            setError("Unknown error has occured.");
+          }
+        });
+    }
+  };
+
   const signOutUser = () => {
     signOut(auth).catch((error) => {
       if (error instanceof Error) {
@@ -163,6 +203,7 @@ export const AuthProvider = ({ children }: Props) => {
       error,
       successMessage,
       signOutUser,
+      updateUserProfile,
     }),
     [user, error, successMessage]
   );
