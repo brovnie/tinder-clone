@@ -1,6 +1,7 @@
 import Btn from "@/components/ui/button";
 import FieldInput from "@/components/ui/field-input";
 import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "expo-router";
 import { JSX, useEffect, useState } from "react";
 import { Image, ScrollView, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -9,10 +10,7 @@ type Step = {
   label: string;
   inputField: JSX.Element;
 };
-type RootStackParamList = {
-  index: undefined;
-  chat: undefined;
-};
+
 export default function ModalScreen() {
   const { user, updateUserAuthProfile, updateUserProfile, signOutUser } =
     useAuth();
@@ -22,6 +20,7 @@ export default function ModalScreen() {
   const [occupation, setOccupation] = useState<string>("");
   const [age, setAge] = useState<string>("");
   const [incompletedForm, setIncompletedForm] = useState<boolean>(false);
+  const router = useRouter();
 
   useEffect(() => {
     const isAnyFieldFilled = [
@@ -39,8 +38,12 @@ export default function ModalScreen() {
       let authProfileData: { [key: string]: any } = {};
       name && (authProfileData["displayName"] = name);
       avatar && (authProfileData["photoURL"] = avatar);
-
       updateUserAuthProfile(authProfileData);
+    }
+    //when only authprofile has to be updated
+    if (!profilePicture || !age || !occupation) {
+      router.push("/");
+      return;
     }
 
     const profileData: { [key: string]: any } = {};
