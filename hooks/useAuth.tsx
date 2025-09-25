@@ -72,6 +72,7 @@ export const AuthProvider = ({ children }: Props) => {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccesMessage] = useState<string | null>(null);
   const router = useRouter();
+
   useEffect(() => {
     SplashScreen.preventAutoHideAsync().catch(() => {
       console.log("error splash screen show");
@@ -160,7 +161,6 @@ export const AuthProvider = ({ children }: Props) => {
       photoURL && (data["photoURL"] = photoURL);
       occupation && (data["occupation"] = occupation);
       age && (data["age"] = age);
-      console.log("you here");
       setDoc(
         doc(db, "users", user.uid),
         {

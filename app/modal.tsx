@@ -9,7 +9,10 @@ type Step = {
   label: string;
   inputField: JSX.Element;
 };
-
+type RootStackParamList = {
+  index: undefined;
+  chat: undefined;
+};
 export default function ModalScreen() {
   const { user, updateUserAuthProfile, updateUserProfile, signOutUser } =
     useAuth();
