@@ -18,7 +18,11 @@ const HeaderChat = ({ title, callEnabled }: HeaderChatTypes) => {
         <View className="flex-row items-center">
           <TouchableOpacity
             onPress={() => {
-              router.back();
+              if (title === "Chat") {
+                router.back();
+              } else {
+                router.navigate("/chat");
+              }
             }}
           >
             <Ionicons
