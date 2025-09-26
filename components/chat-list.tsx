@@ -58,7 +58,7 @@ const ChatList = () => {
           data={matches}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => <ChatRow details={item} />}
-          className="h-full"
+          className="h-full w-full"
         />
       ) : (
         <Text className="text-slate-400 dark:text-slate-700 text-3xl">
