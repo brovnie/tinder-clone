@@ -39,7 +39,6 @@ const Message = () => {
   const [messages, setMessages] = useState<SingleMessage[] | []>([]);
   const { user } = useAuth();
   const inputRef = useRef<TextInput>(null);
-  const [lastMessage, setLastMessage] = useState<string>("");
   const matchId = user ? generateIds(params?.id, user.uid) : "";
 
   useEffect(() => {

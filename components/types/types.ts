@@ -1,6 +1,7 @@
 export type AuthType = "login" | "signUp";
 
 export type Card = {
+  id: string;
   firstName: string;
   lastName: string;
   occupation: string;

@@ -25,9 +25,9 @@ const ChatRow = ({ details }: { details: MatchProfile }) => {
           orderBy("timestamp", "desc")
         ),
         (snapshot) => {
-          //setLastMessage(snapshot.docs[0]))
-          const message = snapshot.docs.map((doc) => doc.data())[0].message;
-          setLastMessage(message);
+          const message = snapshot.docs.map((doc) => doc.data());
+          const firstMessage = message ? message[0]?.message : null;
+          setLastMessage(firstMessage);
         }
       ),
     [db, details]

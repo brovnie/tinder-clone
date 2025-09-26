@@ -50,7 +50,7 @@ type CardSwiperProps = {
   setSwipeRef: React.Dispatch<React.SetStateAction<Swiper<Card> | null>>;
 };
 
-type ProfileCard = {
+export type ProfileCard = Card & {
   id: string;
   firstName: string;
   photoURL: string;
@@ -61,14 +61,14 @@ type ProfileCard = {
 const CardSwiper = ({ setSwipeRef }: CardSwiperProps) => {
   const colorScheme = useColorScheme();
   const swipeRef = useRef(null);
-  const [profiles, setProfiles] = useState<ProfileCard[]>([]);
+  const [profiles, setProfiles] = useState<Card[]>([]);
   const { user } = useAuth();
   const router = useRouter();
   useEffect(() => {
     if (swipeRef.current) {
       setSwipeRef(swipeRef.current);
     }
-  }, [swipeRef]);
+  }, [swipeRef, setSwipeRef]);
   useEffect(() => {
     let unsubscribe: (() => void) | undefined;
 
@@ -177,7 +177,10 @@ const CardSwiper = ({ setSwipeRef }: CardSwiperProps) => {
         </View>
       ) : (
         <Swiper
-          ref={swipeRef}
+          ref={(ref) => {
+            if (ref) setSwipeRef(ref);
+            else setSwipeRef(null);
+          }}
           cards={profiles}
           containerStyle={{ borderRadius: 20, padding: 0, margin: 0 }}
           renderCard={(card) => {

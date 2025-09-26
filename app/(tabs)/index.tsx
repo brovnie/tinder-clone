@@ -1,6 +1,5 @@
 import HeaderIndex from "@/components/header-index";
-import CardSwiper from "@/components/swiper";
-import { Card } from "@/components/types/types";
+import CardSwiper, { ProfileCard } from "@/components/swiper";
 import { db } from "@/firebase";
 import { useAuth } from "@/hooks/useAuth";
 import { AntDesign, Entypo } from "@expo/vector-icons";
@@ -11,7 +10,7 @@ import { TouchableOpacity, View } from "react-native";
 import type Swiper from "react-native-deck-swiper";
 
 export default function HomeScreen() {
-  const [swipeRef, setSwipeRef] = useState<Swiper<Card> | null>(null);
+  const [swipeRef, setSwipeRef] = useState<Swiper<ProfileCard> | null>(null);
   const router = useRouter();
   const { user } = useAuth();
 
@@ -41,7 +40,6 @@ export default function HomeScreen() {
           <TouchableOpacity
             className="items-center justify-center rounded-full w-20 h-20 bg-red-300 dark:bg-red-800"
             onPress={() => {
-              console.log(swipeRef);
               swipeRef?.swipeLeft();
             }}
           >
