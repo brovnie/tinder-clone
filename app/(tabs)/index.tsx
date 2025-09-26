@@ -38,6 +38,7 @@ export default function HomeScreen() {
         <TouchableOpacity
           className="items-center justify-center rounded-full w-20 h-20 bg-red-300 dark:bg-red-800"
           onPress={() => {
+            console.log(swipeRef);
             swipeRef?.swipeLeft();
           }}
         >

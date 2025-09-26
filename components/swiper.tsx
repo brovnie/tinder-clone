@@ -1,12 +1,16 @@
+import generateIds from "@/app/lib/generateId";
 import { Colors } from "@/constants/theme";
 import { db } from "@/firebase";
 import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "expo-router";
 import {
   collection,
   doc,
+  getDoc,
   getDocs,
   onSnapshot,
   query,
+  serverTimestamp,
   setDoc,
   where,
 } from "firebase/firestore";
@@ -59,7 +63,12 @@ const CardSwiper = ({ setSwipeRef }: CardSwiperProps) => {
   const swipeRef = useRef(null);
   const [profiles, setProfiles] = useState<ProfileCard[]>([]);
   const { user } = useAuth();
-
+  const router = useRouter();
+  useEffect(() => {
+    if (swipeRef.current) {
+      setSwipeRef(swipeRef.current);
+    }
+  }, [swipeRef]);
   useEffect(() => {
     let unsubscribe: (() => void) | undefined;
 
@@ -113,12 +122,6 @@ const CardSwiper = ({ setSwipeRef }: CardSwiperProps) => {
     };
   }, []);
 
-  useEffect(() => {
-    if (swipeRef.current) {
-      setSwipeRef(swipeRef.current);
-    }
-  }, []);
-
   //Reject profile 😔
   const swipeLeft = (cardIndex: number) => {
     const userSwipped = profiles[cardIndex];
@@ -130,13 +133,38 @@ const CardSwiper = ({ setSwipeRef }: CardSwiperProps) => {
   };
 
   //It's a match ❤️
-  const swipeRight = (cardIndex: number) => {
+  const swipeRight = async (cardIndex: number) => {
     const userSwipped = profiles[cardIndex];
-    if (user) {
-      setDoc(doc(db, "users", user?.uid, "swipes", userSwipped.id), {
-        id: userSwipped.id,
+    if (!user) return;
+
+    setDoc(doc(db, "users", user?.uid, "swipes", userSwipped.id), {
+      id: userSwipped.id,
+    });
+
+    const loggedInProfile = await (
+      await getDoc(doc(db, "users", user.uid))
+    ).data();
+
+    getDoc(doc(db, "users", userSwipped.id)).then((documentSnapshot) => {
+      if (documentSnapshot.exists()) {
+        setDoc(doc(db, "matches", generateIds(user.uid, userSwipped.id)), {
+          users: {
+            [user.uid]: user.uid,
+            [userSwipped.id]: userSwipped.id,
+          },
+          usersMatched: [user.uid, userSwipped.id],
+          temestemp: serverTimestamp(),
+        });
+      }
+      router.navigate({
+        pathname: "/match",
+        params: {
+          loggedInPhoto: loggedInProfile?.photoURL,
+          swippedUserName: userSwipped.firstName,
+          swippedUserPhoto: userSwipped.photoURL,
+        },
       });
-    }
+    });
   };
 
   return (

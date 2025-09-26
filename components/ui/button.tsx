@@ -6,9 +6,15 @@ type BtnType = {
   text: string;
   onPress: () => void;
   disabled?: boolean;
+  whiteButton?: boolean;
 };
 
-const Btn = ({ text, onPress, disabled = false }: BtnType) => {
+const Btn = ({
+  text,
+  onPress,
+  disabled = false,
+  whiteButton = false,
+}: BtnType) => {
   const colorScheme = useColorScheme();
 
   return (
@@ -17,8 +23,10 @@ const Btn = ({ text, onPress, disabled = false }: BtnType) => {
       labelStyle={{ fontSize: 18 }}
       contentStyle={{ height: 50 }}
       onPress={onPress}
-      buttonColor={Colors[colorScheme ?? "light"].button}
-      textColor="white"
+      buttonColor={
+        !whiteButton ? Colors[colorScheme ?? "light"].button : "white"
+      }
+      textColor={whiteButton ? "black" : "white"}
       disabled={disabled}
     >
       {text}

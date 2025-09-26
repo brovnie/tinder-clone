@@ -33,6 +33,10 @@ const AppRouter = () => {
           name="modal"
           options={{ presentation: "modal", headerShown: false }}
         />
+        <Stack.Screen
+          name="match"
+          options={{ presentation: "transparentModal", headerShown: false }}
+        />
       </Stack.Protected>
     </Stack>
   );
