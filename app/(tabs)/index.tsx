@@ -1,3 +1,4 @@
+import HeaderIndex from "@/components/header-index";
 import CardSwiper from "@/components/swiper";
 import { Card } from "@/components/types/types";
 import { db } from "@/firebase";
@@ -30,29 +31,32 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <View className="flex-1">
+    <>
+      <HeaderIndex />
       <View className="flex-1">
-        <CardSwiper setSwipeRef={setSwipeRef} />
+        <View className="flex-1">
+          <CardSwiper setSwipeRef={setSwipeRef} />
+        </View>
+        <View className="flex-row items-end justify-evenly z-10">
+          <TouchableOpacity
+            className="items-center justify-center rounded-full w-20 h-20 bg-red-300 dark:bg-red-800"
+            onPress={() => {
+              console.log(swipeRef);
+              swipeRef?.swipeLeft();
+            }}
+          >
+            <Entypo name="cross" size={50} color={"#dc2626"} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            className="items-center justify-center rounded-full w-20 h-20 bg-green-300 dark:bg-green-800"
+            onPress={() => {
+              swipeRef?.swipeRight();
+            }}
+          >
+            <AntDesign name="heart" size={40} color={"#22c55e"} />
+          </TouchableOpacity>
+        </View>
       </View>
-      <View className="flex-row items-end justify-evenly z-10">
-        <TouchableOpacity
-          className="items-center justify-center rounded-full w-20 h-20 bg-red-300 dark:bg-red-800"
-          onPress={() => {
-            console.log(swipeRef);
-            swipeRef?.swipeLeft();
-          }}
-        >
-          <Entypo name="cross" size={50} color={"#dc2626"} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          className="items-center justify-center rounded-full w-20 h-20 bg-green-300 dark:bg-green-800"
-          onPress={() => {
-            swipeRef?.swipeRight();
-          }}
-        >
-          <AntDesign name="heart" size={40} color={"#22c55e"} />
-        </TouchableOpacity>
-      </View>
-    </View>
+    </>
   );
 }

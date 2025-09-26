@@ -5,7 +5,7 @@ import { Link } from "expo-router";
 import { Image, TouchableOpacity, useColorScheme, View } from "react-native";
 import { Appbar, Avatar } from "react-native-paper";
 
-const Header = () => {
+const HeaderIndex = () => {
   const { user } = useAuth();
   const colorScheme = useColorScheme();
 
@@ -45,4 +45,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HeaderIndex;

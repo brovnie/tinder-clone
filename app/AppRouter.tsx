@@ -1,4 +1,3 @@
-import Header from "@/components/header";
 import { useAuth } from "@/hooks/useAuth";
 import { Stack } from "expo-router";
 
@@ -28,7 +27,7 @@ const AppRouter = () => {
       </Stack.Protected>
 
       <Stack.Protected guard={isLoggedIn}>
-        <Stack.Screen name="(tabs)" options={{ header: () => <Header /> }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
           name="modal"
           options={{ presentation: "modal", headerShown: false }}

@@ -1,10 +1,12 @@
-import { Text, View } from "react-native";
+import ChatList from "@/components/chat-list";
+import HeaderChat from "@/components/header-chat";
 
 const Chat = () => {
   return (
-    <View>
-      <Text className="dark:text-white">Chat</Text>
-    </View>
+    <>
+      <HeaderChat title="Chat" />
+      <ChatList />
+    </>
   );
 };
 
