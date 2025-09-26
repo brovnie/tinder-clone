@@ -14,40 +14,13 @@ import {
   setDoc,
   where,
 } from "firebase/firestore";
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { Image, Text, useColorScheme, View } from "react-native";
 import Swiper from "react-native-deck-swiper";
 import { Card } from "./types/types";
 
-const DUMMY_DATA = [
-  {
-    firstName: "Marlena",
-    lastName: "Unknown",
-    occupation: "Front end developer",
-    photoURL:
-      "https://images.unsplash.com/photo-1558467612-d1dd65c7ede7?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    age: 30,
-  },
-  {
-    firstName: "Joe",
-    lastName: "Doe",
-    occupation: "Social worker",
-    photoURL:
-      "https://plus.unsplash.com/premium_photo-1683141256844-9b6a7b00eddd?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    age: 30,
-  },
-  {
-    firstName: "John",
-    lastName: "Smith",
-    occupation: "police officer",
-    photoURL:
-      "https://images.unsplash.com/photo-1529478490015-00f1a2f8f5cd?q=80&w=770&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    age: 30,
-  },
-];
-
 type CardSwiperProps = {
-  setSwipeRef: React.Dispatch<React.SetStateAction<Swiper<Card> | null>>;
+  setSwipeRef: Dispatch<SetStateAction<Swiper<Card> | null>>;
 };
 
 export type ProfileCard = Card & {

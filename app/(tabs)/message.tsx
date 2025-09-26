@@ -51,6 +51,7 @@ const Message = () => {
       (snapshot) => {
         const data = snapshot.docs.map((doc) => ({
           id: doc.id,
+          userId: doc.data().userId as string,
           message: doc.data().message as string,
           photoURL: doc.data().photoURL as string,
         }));
@@ -103,7 +104,8 @@ const Message = () => {
             inverted={true}
             keyExtractor={(item: any) => item.id}
             renderItem={({ item }) => {
-              return item.id === user?.uid ? (
+              console.log(item);
+              return item.userId === user?.uid ? (
                 <SenderMessage key={item.id} message={item} />
               ) : (
                 <ReceiverMessage key={item.id} message={item} />

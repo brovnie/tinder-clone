@@ -6,7 +6,7 @@ export type Card = {
   lastName: string;
   occupation: string;
   photoURL: string;
-  age: number;
+  age: string;
 };
 export type MatchProfile = {
   id: string;
@@ -20,4 +20,5 @@ export type SingleMessage = {
   id: string;
   message: string;
   photoURL?: string;
+  userId?: string;
 };
