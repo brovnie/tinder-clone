@@ -11,6 +11,7 @@ type FieldInputType = {
   keyboardType?: KeyboardTypeOptions | undefined;
   value?: string | null;
   onSubmitEditing?: () => void;
+  inputRef?: any;
 };
 
 const FieldInput = ({
@@ -22,11 +23,13 @@ const FieldInput = ({
   keyboardType = "default",
   value,
   onSubmitEditing = () => {},
+  inputRef,
 }: FieldInputType) => {
   const colorScheme = useColorScheme();
   return (
     <View>
       <TextInput
+        ref={inputRef}
         label={label}
         mode="outlined"
         autoCapitalize="none"
