@@ -15,3 +15,7 @@ export type MatchProfile = {
   photoURL: string;
   timestemp?: any;
 };
+export type Message = {
+  message: string;
+  photoURL?: string;
+};

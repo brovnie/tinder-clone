@@ -10,18 +10,12 @@ import {
 import { useEffect, useState } from "react";
 import { FlatList, Text, View } from "react-native";
 import ChatRow from "./chat-row";
-export type MatchProfile = {
-  id: string;
-  displayName: string;
-  age: string;
-  occupation: string;
-  photoURL: string;
-  timestemp?: any; // Use `FirebaseFirestore.Timestamp` if typed correctly
-};
+import { MatchProfile } from "./types/types";
+
 const ChatList = () => {
   const [matches, setMatches] = useState<MatchProfile[] | []>([]);
   const { user } = useAuth();
-  console.log(matches);
+
   useEffect(() => {
     if (!user) return;
     onSnapshot(

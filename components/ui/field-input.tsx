@@ -10,6 +10,7 @@ type FieldInputType = {
   secureTextEntry?: boolean;
   keyboardType?: KeyboardTypeOptions | undefined;
   value?: string | null;
+  onSubmitEditing?: () => void;
 };
 
 const FieldInput = ({
@@ -20,6 +21,7 @@ const FieldInput = ({
   secureTextEntry = false,
   keyboardType = "default",
   value,
+  onSubmitEditing = () => {},
 }: FieldInputType) => {
   const colorScheme = useColorScheme();
   return (
@@ -45,6 +47,7 @@ const FieldInput = ({
         secureTextEntry={secureTextEntry}
         keyboardType={keyboardType}
         value={value ? value : undefined}
+        onSubmitEditing={onSubmitEditing}
       />
     </View>
   );

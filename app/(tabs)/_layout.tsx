@@ -2,6 +2,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { useState } from "react";
 import HomeScreen from ".";
 import Chat from "./chat";
+import Message from "./message";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -28,6 +29,11 @@ export default function TabLayout() {
       <Tab.Screen
         name="chat"
         component={Chat}
+        listeners={{ focus: () => setSwipeEnabled(true) }}
+      />
+      <Tab.Screen
+        name="message"
+        component={Message}
         listeners={{ focus: () => setSwipeEnabled(true) }}
       />
     </Tab.Navigator>
