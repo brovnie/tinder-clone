@@ -1,6 +1,6 @@
 import { Text, TouchableOpacity, View } from "react-native";
 import { Avatar } from "react-native-paper";
-import { MatchProfile } from "./chat-list";
+import { MatchProfile } from "./types/types";
 
 const ChatRow = ({ details }: { details: MatchProfile }) => {
   return (

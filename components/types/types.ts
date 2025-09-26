@@ -7,3 +7,11 @@ export type Card = {
   photoURL: string;
   age: number;
 };
+export type MatchProfile = {
+  id: string;
+  displayName: string;
+  age: string;
+  occupation: string;
+  photoURL: string;
+  timestemp?: any;
+};
