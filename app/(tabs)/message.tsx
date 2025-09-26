@@ -1,7 +1,7 @@
 import HeaderChat from "@/components/header-chat";
 import ReceiverMessage from "@/components/message-receiver";
 import SenderMessage from "@/components/message-sender";
-import { MatchProfile } from "@/components/types/types";
+import { MatchProfile, SingleMessage } from "@/components/types/types";
 import FieldInput from "@/components/ui/field-input";
 import { Colors } from "@/constants/theme";
 import { db } from "@/firebase";
@@ -13,9 +13,12 @@ import {
   collection,
   doc,
   getDoc,
+  onSnapshot,
+  orderBy,
+  query,
   serverTimestamp,
 } from "firebase/firestore";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   FlatList,
   Keyboard,
@@ -33,34 +36,45 @@ const Message = () => {
   const { params } = useRoute() as { params: MatchProfile };
   const [input, setInput] = useState<string>("");
   const colorScheme = useColorScheme();
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<SingleMessage[] | []>([]);
   const { user } = useAuth();
   const inputRef = useRef<TextInput>(null);
 
-  const sendMessage = async (textInput?: string) => {
-    const textToSend = textInput ?? input;
-    if (!user || !textToSend.trim()) return;
+  const matchId = user ? generateIds(params?.id, user.uid) : "";
+
+  useEffect(() => {
+    if (!user) return;
+    onSnapshot(
+      query(
+        collection(db, "matches", matchId, "messages"),
+        orderBy("timestamp", "desc")
+      ),
+      (snapshot) => {
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          message: doc.data().message as string,
+          photoURL: doc.data().photoURL as string,
+        }));
+        setMessages(data);
+      }
+    );
+  }, [db, params]);
+
+  const sendMessage = async () => {
+    if (!user || !input.trim()) return;
 
     try {
       const userDoc = await getDoc(doc(db, "users", user.uid));
       if (userDoc.exists()) {
         const { photoURL } = userDoc.data();
 
-        addDoc(
-          collection(
-            db,
-            "matches",
-            generateIds(params.id, user.uid),
-            "messages"
-          ),
-          {
-            timestamp: serverTimestamp(),
-            userId: user.uid,
-            displayName: user.displayName,
-            photoURL,
-            message: textToSend,
-          }
-        );
+        addDoc(collection(db, "matches", matchId, "messages"), {
+          timestamp: serverTimestamp(),
+          userId: user.uid,
+          displayName: user.displayName,
+          photoURL,
+          message: input,
+        });
 
         inputRef.current?.blur();
         setInput("");
@@ -85,11 +99,12 @@ const Message = () => {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <FlatList
-            className="flex-1 pl-4"
+            className="flex-1 pl-4 "
             data={messages}
+            inverted={true}
             keyExtractor={(item: any) => item.id}
             renderItem={({ item }) => {
-              return item.userId === user?.uid ? (
+              return item.id === user?.uid ? (
                 <SenderMessage key={item.id} message={item} />
               ) : (
                 <ReceiverMessage key={item.id} message={item} />
@@ -98,7 +113,7 @@ const Message = () => {
           />
         </TouchableWithoutFeedback>
 
-        <View className="py-5 flex-row items-center bg-white dark:bg-black">
+        <View className=" py-5 flex-row items-center bg-white dark:bg-black">
           <View className="flex-1 mx-3">
             <FieldInput
               error=""
@@ -107,14 +122,12 @@ const Message = () => {
               onChangeText={(text) => {
                 setInput(text);
               }}
-              onSubmitEditing={() => sendMessage(input)}
+              onSubmitEditing={sendMessage}
               inputRef={inputRef}
             />
           </View>
           <TouchableOpacity
-            onPress={() => {
-              sendMessage(input);
-            }}
+            onPress={sendMessage}
             className="w-12 mr-3 h-12 rounded-full items-center justify-center"
             style={{ backgroundColor: Colors[colorScheme ?? "light"].button }}
           >

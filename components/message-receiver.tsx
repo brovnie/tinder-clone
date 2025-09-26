@@ -1,10 +1,10 @@
 import { Text, View } from "react-native";
 import { Avatar } from "react-native-paper";
-import { Message } from "./types/types";
+import { SingleMessage } from "./types/types";
 
-const ReceiverMessage = ({ message }: { message: Message }) => {
+const ReceiverMessage = ({ message }: { message: SingleMessage }) => {
   return (
-    <View className="bg-rose-500 dark:bg-rose-800 self-start rounded-lg rounded-tl-none mx-3 my-2 px-5 py-2 ml-14 relative">
+    <View className="bg-rose-500 dark:bg-rose-800 self-start rounded-lg rounded-tl-none mx-3 my-5 px-5 py-2 ml-14 relative items-center">
       <Avatar.Image
         size={44}
         source={{ uri: message.photoURL }}

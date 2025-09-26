@@ -15,7 +15,8 @@ export type MatchProfile = {
   photoURL: string;
   timestemp?: any;
 };
-export type Message = {
+export type SingleMessage = {
+  id: string;
   message: string;
   photoURL?: string;
 };
